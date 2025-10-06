@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Gallery Categories */
+        .gallery-categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            height: 300px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 2rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-description {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        .gallery-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.95);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Modal/Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        .lightbox-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 10px 10px;
+            margin-top: -5px;
+        }
+
+        .lightbox-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-lightbox:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: var(--accent);
+        }
+
+        /* Stats Section */
+        .gallery-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .lightbox-image {
+                height: 300px;
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html" class="active">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>📸 Galería de Fotos</h1>
+                <p>Conoce a través de imágenes el impacto y las actividades del proyecto Brecha Digital Colombia en comunidades de todo el país</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="gallery-stats">
+                <div class="stat-card">
+                    <div class="stat-number">170</div>
+                    <div class="stat-label">Municipios Documentados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Fotografías</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Departamentos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Eventos Capturados</div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="gallery-categories">
+                <button class="category-btn active" onclick="filterGallery('all')">Todas</button>
+                <button class="category-btn" onclick="filterGallery('infraestructura')">Infraestructura</button>
+                <button class="category-btn" onclick="filterGallery('capacitaciones')">Capacitaciones</button>
+                <button class="category-btn" onclick="filterGallery('eventos')">Eventos</button>
+                <button class="category-btn" onclick="filterGallery('comunidad')">Comunidad</button>
+                <button class="category-btn" onclick="filterGallery('tecnologia')">Tecnología</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <!-- Item 1 -->
+                <div class="gallery-item" data-category="infraestructura" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Infraestructura</div>
+                    <div class="gallery-image">📡</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Instalación de Antena en Chocó</h3>
+                        <p class="gallery-description">Primera antena instalada en municipio de Bojayá</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="gallery-item" data-category="capacitaciones" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Capacitaciones</div>
+                    <div class="gallery-image">👨‍🏫</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Taller de Alfabetización Digital</h3>
+                        <p class="gallery-description">Docentes aprendiendo herramientas digitales básicas</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="gallery-item" data-category="eventos" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Eventos</div>
+                    <div class="gallery-image">🎉</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Lanzamiento Oficial del Proyecto</h3>
+                        <p class="gallery-description">Ceremonia de inauguración en Bogotá</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="gallery-item" data-category="comunidad" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Comunidad</div>
+                    <div class="gallery-image">👥</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Familias Beneficiadas</h3>
+                        <p class="gallery-description">Comunidad rural recibiendo dispositivos</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="gallery-item" data-category="tecnologia" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Tecnología</div>
+                    <div class="gallery-image">💻</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Centro Digital Comunitario</h3>
+                        <p class="gallery-description">Equipos de última generación disponibles</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="gallery-item" data-category="capacitaciones" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Capacitaciones</div>
+                    <div class="gallery-image">📚</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Curso de Programación Básica</h3>
+                        <p class="gallery-description">Jóvenes aprendiendo a programar</p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="gallery-item" data-category="eventos" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Eventos</div>
+                    <div class="gallery-image">🏆</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Hackathon Social 2025</h3>
+                        <p class="gallery-description">Premiación de proyectos ganadores</p>
+                    </div>
+                </div>
+
+                <!-- Item 8 -->
+                <div class="gallery-item" data-category="infraestructura" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Infraestructura</div>
+                    <div class="gallery-image">🏗️</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Construcción de Centro Digital</h3>
+                        <p class="gallery-description">Obras en progreso en La Guajira</p>
+                    </div>
+                </div>
+
+                <!-- Item 9 -->
+                <div class="gallery-item" data-category="comunidad" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Comunidad</div>
+                    <div class="gallery-image">🌾</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Agricultura Digital</h3>
+                        <p class="gallery-description">Campesinos usando apps agrícolas</p>
+                    </div>
+                </div>
+
+                <!-- Item 10 -->
+                <div class="gallery-item" data-category="tecnologia" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Tecnología</div>
+                    <div class="gallery-image">📱</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Distribución de Tablets</h3>
+                        <p class="gallery-description">Estudiantes recibiendo dispositivos</p>
+                    </div>
+                </div>
+
+                <!-- Item 11 -->
+                <div class="gallery-item" data-category="capacitaciones" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Capacitaciones</div>
+                    <div class="gallery-image">🎓</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Graduación Primer Cohorte</h3>
+                        <p class="gallery-description">500 docentes certificados</p>
+                    </div>
+                </div>
+
+                <!-- Item 12 -->
+                <div class="gallery-item" data-category="eventos" onclick="openLightbox(this)">
+                    <div class="gallery-tag">Eventos</div>
+                    <div class="gallery-image">🤝</div>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Firma de Alianzas</h3>
+                        <p class="gallery-description">Acuerdos con empresas tecnológicas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <div class="lightbox-content">
+            <button class="close-lightbox" onclick="closeLightbox(event)">✕</button>
+            <div class="lightbox-image" id="lightboxImage"></div>
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="galeria.html">Galería</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Filter gallery
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    item.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Open lightbox
+        function openLightbox(element) {
+            const lightbox = document.getElementById('lightbox');
+            const title = element.querySelector('.gallery-title').textContent;
+            const description = element.querySelector('.gallery-description').textContent;
+            const emoji = element.querySelector('.gallery-image').textContent;
+            
+            document.getElementById('lightboxTitle').textContent = title;
+            document.getElementById('lightboxDescription').textContent = description;
+            document.getElementById('lightboxImage').textContent = emoji;
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close lightbox
+        function closeLightbox(event) {
+            if (event.target.id === 'lightbox' || event.target.classList.contains('close-lightbox')) {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

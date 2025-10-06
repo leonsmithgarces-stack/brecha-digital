@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonios - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Impact Stats */
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .impact-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .impact-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-label {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Featured Testimonial */
+        .featured-testimonial {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease 0.4s both;
+        }
+
+        .featured-testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 10rem;
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .featured-quote {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .featured-author {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .author-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-role {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* Testimonials Grid */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .testimonial-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 5rem;
+            opacity: 0.05;
+            font-family: Georgia, serif;
+            color: var(--primary);
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-category {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: #334155;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .author-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .author-details {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-location {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .star-rating {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        /* Video Section */
+        .video-section {
+            background: linear-gradient(135deg, #f1f5f9, #e0e7ff);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+            text-align: center;
+            animation: fadeIn 0.8s ease 0.8s both;
+        }
+
+        .video-section h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            font-size: 4rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .featured-testimonial {
+                padding: 2rem;
+            }
+
+            .featured-quote {
+                font-size: 1.2rem;
+            }
+
+            .video-placeholder {
+                height: 250px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html" class="active">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>💬 Testimonios</h1>
+                <p>Conoce las historias reales de personas y comunidades cuyas vidas han sido transformadas por el proyecto Brecha Digital Colombia</p>
+            </div>
+
+            <!-- Impact Stats -->
+            <div class="impact-stats">
+                <div class="impact-card">
+                    <div class="impact-number">500K+</div>
+                    <div class="impact-label">Vidas Impactadas</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">4.8/5</div>
+                    <div class="impact-label">Satisfacción</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">95%</div>
+                    <div class="impact-label">Recomendarían</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">1,200+</div>
+                    <div class="impact-label">Testimonios</div>
+                </div>
+            </div>
+
+            <!-- Featured Testimonial -->
+            <div class="featured-testimonial">
+                <span class="featured-badge">⭐ Testimonio Destacado</span>
+                <p class="featured-quote">"Antes no teníamos internet en nuestro municipio. Hoy, mis estudiantes pueden acceder a información del mundo entero. Este proyecto no solo trajo tecnología, trajo esperanza y oportunidades para toda nuestra comunidad."</p>
+                <div class="featured-author">
+                    <div class="author-avatar">👩‍🏫</div>
+                    <div class="author-info">
+                        <h3>María Fernanda Gómez</h3>
+                        <p class="author-role">Docente - Escuela Rural El Porvenir, Chocó</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterTestimonials('all')">Todos</button>
+                <button class="filter-btn" onclick="filterTestimonials('docentes')">Docentes</button>
+                <button class="filter-btn" onclick="filterTestimonials('estudiantes')">Estudiantes</button>
+                <button class="filter-btn" onclick="filterTestimonials('emprendedores')">Emprendedores</button>
+                <button class="filter-btn" onclick="filterTestimonials('comunidad')">Comunidad</button>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card" data-category="docentes">
+                    <span class="testimonial-category">Docente</span>
+                    <p class="testimonial-text">"La capacitación que recibí cambió mi forma de enseñar. Ahora uso herramientas digitales que hacen mis clases más dinámicas e interesantes para los estudiantes."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">👨‍🏫</div>
+                        <div class="author-details">
+                            <div class="author-name">Carlos Andrés Pérez</div>
+                            <div class="author-location">📍 Tumaco, Nariño</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card" data-category="estudiantes">
+                    <span class="testimonial-category">Estudiante</span>
+                    <p class="testimonial-text">"Gracias a las tablets que nos dieron, puedo hacer mis tareas y buscar información para mis proyectos. Antes tenía que caminar horas hasta el pueblo más cercano para usar internet."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">🎓</div>
+                        <div class="author-details">
+                            <div class="author-name">Laura Sofía Martínez</div>
+                            <div class="author-location">📍 Riosucio, Chocó</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card" data-category="emprendedores">
+                    <span class="testimonial-category">Emprendedor</span>
+                    <p class="testimonial-text">"Aprendí a vender mis productos artesanales por internet. Ahora tengo clientes en todo Colombia y hasta en otros países. Mi negocio creció 300% en un año."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">💼</div>
+                        <div class="author-details">
+                            <div class="author-name">José Manuel Rodríguez</div>
+                            <div class="author-location">📍 Maicao, La Guajira</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 4 -->
+                <div class="testimonial-card" data-category="comunidad">
+                    <span class="testimonial-category">Líder Comunitario</span>
+                    <p class="testimonial-text">"El centro digital comunitario se convirtió en el corazón de nuestro pueblo. Jóvenes y adultos vienen a aprender, los niños hacen tareas, y todos nos sentimos más conectados."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">👨‍👩‍👧‍👦</div>
+                        <div class="author-details">
+                            <div class="author-name">Ana Lucía Vargas</div>
+                            <div class="author-location">📍 Inzá, Cauca</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 5 -->
+                <div class="testimonial-card" data-category="docentes">
+                    <span class="testimonial-category">Docente</span>
+                    <p class="testimonial-text">"Los recursos educativos digitales son increíbles. Puedo mostrar videos, hacer presentaciones interactivas y mis estudiantes están más motivados que nunca."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">👩‍🏫</div>
+                        <div class="author-details">
+                            <div class="author-name">Patricia González</div>
+                            <div class="author-location">📍 Puerto Carreño, Vichada</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 6 -->
+                <div class="testimonial-card" data-category="estudiantes">
+                    <span class="testimonial-category">Estudiante</span>
+                    <p class="testimonial-text">"Tomé un curso de programación gratis en la plataforma. Ahora estoy haciendo páginas web para negocios de mi región. ¡Nunca imaginé que podría aprender esto!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">👨‍💻</div>
+                        <div class="author-details">
+                            <div class="author-name">Diego Alejandro Sánchez</div>
+                            <div class="author-location">📍 Mocoa, Putumayo</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 7 -->
+                <div class="testimonial-card" data-category="emprendedores">
+                    <span class="testimonial-category">Emprendedora</span>
+                    <p class="testimonial-text">"Gracias a las capacitaciones, ahora sé cómo usar redes sociales para mi negocio de repostería. Tengo más de 5,000 seguidores y pedidos todos los días."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">🍰</div>
+                        <div class="author-details">
+                            <div class="author-name">Claudia Martínez</div>
+                            <div class="author-location">📍 Quibdó, Chocó</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 8 -->
+                <div class="testimonial-card" data-category="comunidad">
+                    <span class="testimonial-category">Agricultor</span>
+                    <p class="testimonial-text">"Aprendí a usar aplicaciones para mejorar mis cultivos. Ahora sé cuándo sembrar, cuándo cosechar, y cómo cuidar mejor mis plantas. Mi producción aumentó 40%."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">🌾</div>
+                        <div class="author-details">
+                            <div class="author-name">Pedro Suárez</div>
+                            <div class="author-location">📍 Santander de Quilichao, Cauca</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 9 -->
+                <div class="testimonial-card" data-category="estudiantes">
+                    <span class="testimonial-category">Estudiante</span>
+                    <p class="testimonial-text">"Pude tomar clases virtuales con profesores de Bogotá. Eso antes era imposible para nosotros. Ahora siento que tengo las mismas oportunidades que cualquier estudiante del país."</p>
+                    <div class="testimonial-author">
+                        <div class="author-icon">📚</div>
+                        <div class="author-details">
+                            <div class="author-name">Valentina Torres</div>
+                            <div class="author-location">📍 Mitú, Vaupés</div>
+                            <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="video-section">
+                <h2>📹 Historias en Video</h2>
+                <p style="color: #64748b; margin-bottom: 1rem;">Conoce más testimonios en nuestro canal de YouTube</p>
+                <div class="video-placeholder" onclick="alert('Video de testimonios - Próximamente')">
+                    ▶️
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="testimonios.html">Testimonios</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Filter testimonials
+        function filterTestimonials(category) {
+            const cards = document.querySelectorAll('.testimonial-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

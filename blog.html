@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog y Noticias - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: padding 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: var(--primary);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card:hover .blog-image {
+            transform: scale(1.05);
+        }
+
+        .blog-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image::after {
+            left: 100%;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-category {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .blog-date {
+            color: #64748b;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .featured-post::before {
+            content: '⭐';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .featured-post h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-post p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .featured-btn {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .featured-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .featured-post {
+                padding: 2rem;
+            }
+
+            .featured-post h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>📰 Blog y Noticias</h1>
+                <p>Mantente al día con las últimas actualizaciones, logros y noticias del proyecto Brecha Digital Colombia</p>
+            </div>
+
+            <!-- Featured Post -->
+            <div class="featured-post">
+                <span class="featured-badge">✨ Destacado</span>
+                <h2>Lanzamiento Oficial del Proyecto Brecha Digital Colombia</h2>
+                <p>Hoy marca el inicio de una nueva era digital para 170 municipios colombianos. Con el apoyo del Ministerio de las TIC y aliados estratégicos, comenzamos este ambicioso proyecto que transformará vidas.</p>
+                <a href="#" class="featured-btn">Leer más →</a>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterPosts('all')">Todas</button>
+                <button class="filter-btn" onclick="filterPosts('noticias')">Noticias</button>
+                <button class="filter-btn" onclick="filterPosts('logros')">Logros</button>
+                <button class="filter-btn" onclick="filterPosts('eventos')">Eventos</button>
+                <button class="filter-btn" onclick="filterPosts('actualizaciones')">Actualizaciones</button>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <div class="blog-card" data-category="noticias">
+                    <div class="blog-image">📡</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Noticias</span>
+                            <span class="blog-date">📅 Octubre 2025</span>
+                        </div>
+                        <h3 class="blog-title">Primera Fase de Instalación de Antenas Completada</h3>
+                        <p class="blog-excerpt">Se han instalado exitosamente las primeras 50 antenas de conectividad en municipios del departamento de Chocó, beneficiando a más de 20,000 habitantes.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="blog-card" data-category="logros">
+                    <div class="blog-image">🎓</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Logros</span>
+                            <span class="blog-date">📅 Septiembre 2025</span>
+                        </div>
+                        <h3 class="blog-title">500 Docentes Capacitados en Alfabetización Digital</h3>
+                        <p class="blog-excerpt">Alcanzamos la meta de capacitar a 500 docentes en competencias digitales básicas, quienes ahora están listos para transformar la educación en sus comunidades.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 3 -->
+                <div class="blog-card" data-category="eventos">
+                    <div class="blog-image">🎪</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Eventos</span>
+                            <span class="blog-date">📅 Agosto 2025</span>
+                        </div>
+                        <h3 class="blog-title">Primer Encuentro Regional de Alcaldes Digitales</h3>
+                        <p class="blog-excerpt">Más de 80 alcaldes de municipios participantes se reunieron para compartir experiencias y mejores prácticas en la implementación del proyecto.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 4 -->
+                <div class="blog-card" data-category="actualizaciones">
+                    <div class="blog-image">🚀</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Actualizaciones</span>
+                            <span class="blog-date">📅 Julio 2025</span>
+                        </div>
+                        <h3 class="blog-title">Nuevos Aliados Se Unen al Proyecto</h3>
+                        <p class="blog-excerpt">Google.org y Microsoft se suman como aliados estratégicos, aportando herramientas tecnológicas y recursos educativos para potenciar el impacto del proyecto.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 5 -->
+                <div class="blog-card" data-category="logros">
+                    <div class="blog-image">💻</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Logros</span>
+                            <span class="blog-date">📅 Junio 2025</span>
+                        </div>
+                        <h3 class="blog-title">10,000 Dispositivos Distribuidos en Comunidades Rurales</h3>
+                        <p class="blog-excerpt">Se completó la distribución de tabletas y computadores portátiles en escuelas y centros comunitarios de 30 municipios prioritarios.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 6 -->
+                <div class="blog-card" data-category="noticias">
+                    <div class="blog-image">🌐</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Noticias</span>
+                            <span class="blog-date">📅 Mayo 2025</span>
+                        </div>
+                        <h3 class="blog-title">Plataforma de E-Learning Ya Está Disponible</h3>
+                        <p class="blog-excerpt">Se lanza oficialmente la plataforma educativa digital con más de 200 cursos gratuitos en áreas de tecnología, emprendimiento y habilidades blandas.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 7 -->
+                <div class="blog-card" data-category="eventos">
+                    <div class="blog-image">🏆</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Eventos</span>
+                            <span class="blog-date">📅 Abril 2025</span>
+                        </div>
+                        <h3 class="blog-title">Hackathon Social: Innovación Para el Desarrollo Rural</h3>
+                        <p class="blog-excerpt">Más de 300 jóvenes participaron en el primer hackathon enfocado en crear soluciones digitales para desafíos de las comunidades rurales.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 8 -->
+                <div class="blog-card" data-category="actualizaciones">
+                    <div class="blog-image">📊</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Actualizaciones</span>
+                            <span class="blog-date">📅 Marzo 2025</span>
+                        </div>
+                        <h3 class="blog-title">Informe Trimestral de Avances del Proyecto</h3>
+                        <p class="blog-excerpt">Publicamos el primer informe trimestral con métricas de impacto, alcance y resultados obtenidos en los primeros meses de implementación.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+
+                <!-- Post 9 -->
+                <div class="blog-card" data-category="noticias">
+                    <div class="blog-image">🎯</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Noticias</span>
+                            <span class="blog-date">📅 Febrero 2025</span>
+                        </div>
+                        <h3 class="blog-title">Centros Digitales Comunitarios Abren Sus Puertas</h3>
+                        <p class="blog-excerpt">Se inauguran los primeros 15 Centros Digitales Comunitarios equipados con tecnología de punta y acceso gratuito a internet para toda la comunidad.</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Filter posts
+        function filterPosts(category) {
+            const cards = document.querySelectorAll('.blog-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '0.5rem 2rem';
+            } else {
+                navbar.style.padding = '1rem 2rem';
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

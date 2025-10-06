@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos Descargables - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar - Same as other pages */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Resource Categories */
+        .resource-categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .category-tab:hover,
+        .category-tab.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Resources Grid */
+        .resources-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .resource-card:hover::before {
+            left: 100%;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .resource-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover .resource-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .resource-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .resource-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Stats Section */
+        .resources-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html" class="active">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>📚 Recursos Descargables</h1>
+                <p>Accede a documentos, guías, infografías y materiales educativos del proyecto Brecha Digital Colombia</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="resources-stats">
+                <div class="stat-box">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Recursos Disponibles</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Categorías</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Descargas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Gratuito</div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="resource-categories">
+                <button class="category-tab active" onclick="filterResources('all')">Todos</button>
+                <button class="category-tab" onclick="filterResources('documentos')">Documentos</button>
+                <button class="category-tab" onclick="filterResources('guias')">Guías</button>
+                <button class="category-tab" onclick="filterResources('infografias')">Infografías</button>
+                <button class="category-tab" onclick="filterResources('presentaciones')">Presentaciones</button>
+            </div>
+
+            <!-- Section 1: Documentos Oficiales -->
+            <div class="resources-section" id="section-documentos">
+                <h2 class="section-title">📄 Documentos Oficiales</h2>
+                <div class="resources-grid">
+                    <!-- Resource 1 -->
+                    <div class="resource-card" data-category="documentos">
+                        <div class="resource-icon">📋</div>
+                        <h3 class="resource-title">Documento Maestro del Proyecto</h3>
+                        <p class="resource-description">Descripción completa del proyecto, objetivos, metodología y plan de implementación.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">2.5 MB</span>
+                            <span class="resource-tag">40 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+
+                    <!-- Resource 2 -->
+                    <div class="resource-card" data-category="documentos">
+                        <div class="resource-icon">📊</div>
+                        <h3 class="resource-title">Informe de Diagnóstico</h3>
+                        <p class="resource-description">Análisis detallado de la brecha digital en los 170 municipios priorizados.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">3.1 MB</span>
+                            <span class="resource-tag">55 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+
+                    <!-- Resource 3 -->
+                    <div class="resource-card" data-category="documentos">
+                        <div class="resource-icon">📈</div>
+                        <h3 class="resource-title">Plan Estratégico 2025-2027</h3>
+                        <p class="resource-description">Estrategia a tres años con metas, indicadores y cronograma de actividades.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">1.8 MB</span>
+                            <span class="resource-tag">35 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Guías y Manuales -->
+            <div class="resources-section" id="section-guias">
+                <h2 class="section-title">📖 Guías y Manuales</h2>
+                <div class="resources-grid">
+                    <!-- Resource 4 -->
+                    <div class="resource-card" data-category="guias">
+                        <div class="resource-icon">👨‍🏫</div>
+                        <h3 class="resource-title">Guía de Alfabetización Digital</h3>
+                        <p class="resource-description">Manual para docentes sobre enseñanza de competencias digitales básicas.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">4.2 MB</span>
+                            <span class="resource-tag">80 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+
+                    <!-- Resource 5 -->
+                    <div class="resource-card" data-category="guias">
+                        <div class="resource-icon">🔧</div>
+                        <h3 class="resource-title">Manual de Uso de Plataforma</h3>
+                        <p class="resource-description">Instrucciones paso a paso para utilizar la plataforma educativa digital.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">2.0 MB</span>
+                            <span class="resource-tag">25 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+
+                    <!-- Resource 6 -->
+                    <div class="resource-card" data-category="guias">
+                        <div class="resource-icon">💡</div>
+                        <h3 class="resource-title">Guía de Emprendimiento Digital</h3>
+                        <p class="resource-description">Herramientas y estrategias para iniciar negocios digitales en zonas rurales.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PDF</span>
+                            <span class="resource-tag">3.5 MB</span>
+                            <span class="resource-tag">60 páginas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Infografías -->
+            <div class="resources-section" id="section-infografias">
+                <h2 class="section-title">🎨 Infografías</h2>
+                <div class="resources-grid">
+                    <!-- Resource 7 -->
+                    <div class="resource-card" data-category="infografias">
+                        <div class="resource-icon">📊</div>
+                        <h3 class="resource-title">Infografía: Impacto del Proyecto</h3>
+                        <p class="resource-description">Visualización de datos sobre el alcance y resultados del proyecto.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PNG</span>
+                            <span class="resource-tag">1.2 MB</span>
+                            <span class="resource-tag">Alta resolución</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Imagen
+                        </button>
+                    </div>
+
+                    <!-- Resource 8 -->
+                    <div class="resource-card" data-category="infografias">
+                        <div class="resource-icon">🌐</div>
+                        <h3 class="resource-title">Mapa de Municipios</h3>
+                        <p class="resource-description">Infografía con ubicación geográfica de los 170 municipios del proyecto.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PNG</span>
+                            <span class="resource-tag">2.8 MB</span>
+                            <span class="resource-tag">Alta resolución</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Imagen
+                        </button>
+                    </div>
+
+                    <!-- Resource 9 -->
+                    <div class="resource-card" data-category="infografias">
+                        <div class="resource-icon">🎯</div>
+                        <h3 class="resource-title">Alineación con ODS</h3>
+                        <p class="resource-description">Infografía sobre cómo el proyecto contribuye a los ODS de la ONU.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PNG</span>
+                            <span class="resource-tag">0.9 MB</span>
+                            <span class="resource-tag">Media resolución</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Imagen
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Presentaciones -->
+            <div class="resources-section" id="section-presentaciones">
+                <h2 class="section-title">🎬 Presentaciones</h2>
+                <div class="resources-grid">
+                    <!-- Resource 10 -->
+                    <div class="resource-card" data-category="presentaciones">
+                        <div class="resource-icon">📽️</div>
+                        <h3 class="resource-title">Presentación Institucional</h3>
+                        <p class="resource-description">Presentación completa del proyecto para instituciones y aliados.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PPTX</span>
+                            <span class="resource-tag">15 MB</span>
+                            <span class="resource-tag">45 diapositivas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PowerPoint
+                        </button>
+                    </div>
+
+                    <!-- Resource 11 -->
+                    <div class="resource-card" data-category="presentaciones">
+                        <div class="resource-icon">📊</div>
+                        <h3 class="resource-title">Resultados Trimestre 1</h3>
+                        <p class="resource-description">Presentación con métricas e indicadores del primer trimestre 2025.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PPTX</span>
+                            <span class="resource-tag">8 MB</span>
+                            <span class="resource-tag">25 diapositivas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PowerPoint
+                        </button>
+                    </div>
+
+                    <!-- Resource 12 -->
+                    <div class="resource-card" data-category="presentaciones">
+                        <div class="resource-icon">🎓</div>
+                        <h3 class="resource-title">Taller de Capacitación</h3>
+                        <p class="resource-description">Material educativo para talleres de alfabetización digital.</p>
+                        <div class="resource-meta">
+                            <span class="resource-tag">PPTX</span>
+                            <span class="resource-tag">12 MB</span>
+                            <span class="resource-tag">60 diapositivas</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar PowerPoint
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Filter resources
+        function filterResources(category) {
+            const cards = document.querySelectorAll('.resource-card');
+            const buttons = document.querySelectorAll('.category-tab');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Download simulation
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const title = this.closest('.resource-card').querySelector('.resource-title').textContent;
+                alert(`Iniciando descarga de: ${title}\n\nNota: Esta es una demo. En producción, aquí se descargaría el archivo real.`);
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

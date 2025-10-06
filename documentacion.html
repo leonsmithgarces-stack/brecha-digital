@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: padding 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Document Sections */
+        .doc-section {
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .doc-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .doc-card:hover::before {
+            left: 100%;
+        }
+
+        .doc-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .doc-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .doc-card:hover .doc-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .doc-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .doc-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .doc-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background: linear-gradient(135deg, #f1f5f9, #e0e7ff);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .quick-links h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-link {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quick-link:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quick-link span {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html" class="active">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>📄 Documentación del Proyecto</h1>
+                <p>Accede a toda la documentación técnica, reportes, análisis y materiales oficiales del proyecto Brecha Digital Colombia</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <h3>🔗 Accesos Rápidos</h3>
+                <div class="links-grid">
+                    <a href="#proyecto" class="quick-link">
+                        <span>📋</span>
+                        <div>Documentos del Proyecto</div>
+                    </a>
+                    <a href="#analisis" class="quick-link">
+                        <span>📊</span>
+                        <div>Análisis y Diagnóstico</div>
+                    </a>
+                    <a href="#metodologia" class="quick-link">
+                        <span>🔬</span>
+                        <div>Metodología</div>
+                    </a>
+                    <a href="#reportes" class="quick-link">
+                        <span>📈</span>
+                        <div>Reportes de Avance</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Section 1: Documentos del Proyecto -->
+            <div class="doc-section" id="proyecto">
+                <h2 class="section-title">📋 Documentos Oficiales del Proyecto</h2>
+                <div class="docs-grid">
+                    <!-- Doc 1 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📄</div>
+                        <h3 class="doc-title">Documento Maestro del Proyecto</h3>
+                        <p class="doc-description">Descripción completa del proyecto Brecha Digital Colombia, incluyendo objetivos, alcance, metodología y plan de implementación.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">40 páginas</span>
+                            <span class="doc-tag">2.5 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 2 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">🎯</div>
+                        <h3 class="doc-title">Plan Estratégico 2025-2027</h3>
+                        <p class="doc-description">Estrategia a tres años con objetivos, metas, indicadores, cronograma de actividades y presupuesto detallado.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">35 páginas</span>
+                            <span class="doc-tag">1.8 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 3 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📋</div>
+                        <h3 class="doc-title">Marco Lógico del Proyecto</h3>
+                        <p class="doc-description">Matriz de marco lógico con objetivos, resultados esperados, indicadores verificables y supuestos del proyecto.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">25 páginas</span>
+                            <span class="doc-tag">1.2 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Análisis y Diagnóstico -->
+            <div class="doc-section" id="analisis">
+                <h2 class="section-title">📊 Análisis y Diagnóstico</h2>
+                <div class="docs-grid">
+                    <!-- Doc 4 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📈</div>
+                        <h3 class="doc-title">Diagnóstico de Brecha Digital</h3>
+                        <p class="doc-description">Análisis detallado de la situación actual de conectividad y acceso a tecnología en los 170 municipios priorizados.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">55 páginas</span>
+                            <span class="doc-tag">3.1 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 5 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">🗺️</div>
+                        <h3 class="doc-title">Mapeo de Actores Territoriales</h3>
+                        <p class="doc-description">Identificación y caracterización de actores clave en los territorios: alcaldías, instituciones educativas, organizaciones comunitarias.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">45 páginas</span>
+                            <span class="doc-tag">2.8 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 6 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📊</div>
+                        <h3 class="doc-title">Análisis de Necesidades</h3>
+                        <p class="doc-description">Estudio cualitativo y cuantitativo de las necesidades digitales específicas de cada región y comunidad beneficiaria.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">50 páginas</span>
+                            <span class="doc-tag">2.3 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Metodología -->
+            <div class="doc-section" id="metodologia">
+                <h2 class="section-title">🔬 Metodología e Implementación</h2>
+                <div class="docs-grid">
+                    <!-- Doc 7 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📚</div>
+                        <h3 class="doc-title">Manual de Implementación</h3>
+                        <p class="doc-description">Guía paso a paso para la implementación del proyecto en cada municipio, incluyendo cronogramas y responsables.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">60 páginas</span>
+                            <span class="doc-tag">3.5 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 8 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">🎓</div>
+                        <h3 class="doc-title">Diseño Curricular Capacitaciones</h3>
+                        <p class="doc-description">Contenidos, competencias y metodología pedagógica de los programas de alfabetización y capacitación digital.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">70 páginas</span>
+                            <span class="doc-tag">4.0 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 9 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📏</div>
+                        <h3 class="doc-title">Sistema de Monitoreo y Evaluación</h3>
+                        <p class="doc-description">Indicadores, instrumentos de medición y procedimientos para el seguimiento y evaluación del impacto del proyecto.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">40 páginas</span>
+                            <span class="doc-tag">2.0 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Reportes de Avance -->
+            <div class="doc-section" id="reportes">
+                <h2 class="section-title">📈 Reportes de Avance y Resultados</h2>
+                <div class="docs-grid">
+                    <!-- Doc 10 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📊</div>
+                        <h3 class="doc-title">Informe Trimestral Q1 2025</h3>
+                        <p class="doc-description">Reporte de avances, logros, indicadores y desafíos del primer trimestre de implementación del proyecto.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">30 páginas</span>
+                            <span class="doc-tag">2.2 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 11 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">📈</div>
+                        <h3 class="doc-title">Informe Trimestral Q2 2025</h3>
+                        <p class="doc-description">Resultados del segundo trimestre incluyendo métricas de cobertura, beneficiarios alcanzados y cumplimiento de metas.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">35 páginas</span>
+                            <span class="doc-tag">2.5 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+
+                    <!-- Doc 12 -->
+                    <div class="doc-card">
+                        <div class="doc-icon">🎯</div>
+                        <h3 class="doc-title">Estudio de Impacto Social</h3>
+                        <p class="doc-description">Evaluación cualitativa del impacto del proyecto en las comunidades beneficiarias, incluyendo testimonios y casos de éxito.</p>
+                        <div class="doc-meta">
+                            <span class="doc-tag">PDF</span>
+                            <span class="doc-tag">48 páginas</span>
+                            <span class="doc-tag">3.0 MB</span>
+                        </div>
+                        <button class="download-btn">
+                            ⬇️ Descargar Documento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Smooth scroll for quick links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Download button alert (demo)
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const title = this.closest('.doc-card').querySelector('.doc-title').textContent;
+                alert(`Iniciando descarga de: ${title}\n\nNota: Esta es una demo. En producción, aquí se descargaría el archivo real.`);
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '0.5rem 2rem';
+            } else {
+                navbar.style.padding = '1rem 2rem';
+            }
+        });
+    </script>
+</body>
+</html>

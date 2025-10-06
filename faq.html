@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Brecha Digital Colombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Search Box */
+        .search-box {
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .faq-item {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+            animation: fadeIn 0.8s ease 0.7s both;
+        }
+
+        .contact-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .contact-cta {
+                padding: 2rem;
+            }
+
+            .contact-cta h2 {
+                font-size: 1.5rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html" class="active">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>❓ Preguntas Frecuentes</h1>
+                <p>Encuentra respuestas a las preguntas más comunes sobre el proyecto Brecha Digital Colombia</p>
+            </div>
+
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="🔍 Buscar una pregunta..." id="searchInput" oninput="searchFAQ()">
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="tab-btn active" onclick="filterFAQ('all')">Todas</button>
+                <button class="tab-btn" onclick="filterFAQ('general')">General</button>
+                <button class="tab-btn" onclick="filterFAQ('participacion')">Participación</button>
+                <button class="tab-btn" onclick="filterFAQ('capacitaciones')">Capacitaciones</button>
+                <button class="tab-btn" onclick="filterFAQ('tecnologia')">Tecnología</button>
+            </div>
+
+            <!-- FAQ Section: General -->
+            <div class="faq-section">
+                <h2 class="section-title">🌐 Preguntas Generales</h2>
+                <div class="faq-list">
+                    <div class="faq-item" data-category="general" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué es el proyecto Brecha Digital Colombia?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Es una iniciativa liderada por el Ministerio TIC para reducir la brecha digital en 170 municipios de Colombia, especialmente en zonas rurales y apartadas. El proyecto busca garantizar acceso a internet, dispositivos tecnológicos y capacitación digital para comunidades vulnerables.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="general" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Cuánto dura el proyecto?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            El proyecto tiene una duración de 3 años (2025-2027), con una inversión total de $20 mil millones de pesos. Durante este período se implementarán todas las fases de infraestructura, capacitación y acompañamiento comunitario.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="general" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué municipios están incluidos?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            El proyecto beneficia a 170 municipios en 15 departamentos de Colombia, priorizando aquellos con mayores índices de necesidades básicas insatisfechas y menor conectividad. Puedes consultar el listado completo en nuestra página de Documentación.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section: Participación -->
+            <div class="faq-section">
+                <h2 class="section-title">🙋 Participación y Beneficios</h2>
+                <div class="faq-list">
+                    <div class="faq-item" data-category="participacion" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Cómo puedo participar si vivo en uno de los municipios?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Puedes acercarte al Centro Digital Comunitario de tu municipio o contactar a la Secretaría de Educación local. También puedes inscribirte a través de nuestra plataforma en línea o llamar a nuestra línea de atención al ciudadano: +57 300 123 4567.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="participacion" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿El proyecto tiene algún costo para los beneficiarios?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            No, el proyecto es completamente gratuito. Todas las capacitaciones, el acceso a internet en los centros digitales, los materiales educativos y las certificaciones son sin costo alguno para los participantes.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="participacion" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué requisitos debo cumplir para beneficiarme?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Los requisitos básicos son: vivir en uno de los 170 municipios participantes, tener documento de identidad vigente y estar dispuesto a comprometerse con el proceso de capacitación. No se requiere experiencia previa en tecnología.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="participacion" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Puedo recibir dispositivos tecnológicos?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Sí, el proyecto contempla la entrega de tablets y computadores a estudiantes y docentes de instituciones educativas oficiales en los municipios participantes. La asignación se realiza según criterios de priorización establecidos por el Ministerio de Educación.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section: Capacitaciones -->
+            <div class="faq-section">
+                <h2 class="section-title">🎓 Capacitaciones y Cursos</h2>
+                <div class="faq-list">
+                    <div class="faq-item" data-category="capacitaciones" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué tipo de capacitaciones ofrecen?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Ofrecemos cursos en alfabetización digital básica, ofimática, programación, uso de redes sociales para negocios, seguridad en internet, agricultura digital, emprendimiento digital, y herramientas educativas para docentes. Todos los cursos están adaptados a diferentes niveles de conocimiento.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="capacitaciones" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Las capacitaciones otorgan certificados?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Sí, todos los participantes que completen exitosamente los cursos recibirán un certificado digital avalado por el Ministerio TIC y las instituciones educativas aliadas. Estos certificados tienen validez nacional y pueden ser utilizados en procesos de búsqueda de empleo.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="capacitaciones" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Cuánto duran los cursos?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            La duración varía según el curso. Los cursos básicos de alfabetización digital duran entre 20-40 horas, mientras que los cursos especializados pueden extenderse hasta 100 horas. Todos se pueden tomar de forma presencial o virtual según disponibilidad.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="capacitaciones" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Puedo tomar varios cursos al mismo tiempo?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Sí, puedes inscribirte en múltiples cursos según tu disponibilidad de tiempo. La plataforma te permite gestionar tu propio ritmo de aprendizaje. Recomendamos no tomar más de 2-3 cursos simultáneos para aprovechar mejor el contenido.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section: Tecnología -->
+            <div class="faq-section">
+                <h2 class="section-title">💻 Tecnología e Infraestructura</h2>
+                <div class="faq-list">
+                    <div class="faq-item" data-category="tecnologia" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué velocidad de internet tendrán los municipios?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            La infraestructura instalada garantiza velocidades de al menos 10 Mbps en Centros Digitales Comunitarios, y 5 Mbps en conexiones residenciales. En áreas con mejor infraestructura existente, las velocidades pueden ser superiores.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="tecnologia" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué pasa si tengo problemas técnicos con los dispositivos?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Contamos con soporte técnico disponible por teléfono, WhatsApp y en los Centros Digitales Comunitarios. Todos los dispositivos tienen garantía y servicio de mantenimiento incluido durante la duración del proyecto.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="tecnologia" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿La plataforma educativa funciona sin internet?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Sí, la plataforma tiene una versión offline que permite descargar contenidos y trabajar sin conexión. Luego, cuando haya internet disponible, el progreso se sincroniza automáticamente.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="tecnologia" onclick="toggleFAQ(this)">
+                        <div class="faq-question">
+                            <span>¿Qué medidas de seguridad digital implementan?</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Todos los sistemas cuentan con protección antivirus, filtros de contenido apropiados, y capacitación en ciberseguridad para usuarios. Además, implementamos políticas de privacidad y protección de datos personales conforme a la legislación colombiana.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact CTA -->
+            <div class="contact-cta">
+                <h2>¿No encontraste tu respuesta?</h2>
+                <p>Estamos aquí para ayudarte. Contáctanos por cualquiera de estos medios:</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        📧 info@brechadigital.co
+                    </div>
+                    <div class="contact-item">
+                        📱 +57 300 123 4567
+                    </div>
+                    <div class="contact-item">
+                        💬 Chat en vivo disponible
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>ODS Alineados</h3>
+                <p>🎯 ODS 4: Educación de Calidad<br>
+                   🎯 ODS 9: Industria, Innovación<br>
+                   🎯 ODS 10: Reducción Desigualdades<br>
+                   🎯 ODS 17: Alianzas</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Toggle FAQ item
+        function toggleFAQ(item) {
+            const wasActive = item.classList.contains('active');
+            
+            // Close all items
+            document.querySelectorAll('.faq-item').forEach(faq => {
+                faq.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Filter FAQ by category
+        function filterFAQ(category) {
+            const items = document.querySelectorAll('.faq-item');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Search FAQ
+        function searchFAQ() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.faq-item');
+            
+            items.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    if (searchTerm.length > 0) {
+                        item.classList.add('active');
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

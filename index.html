@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brecha Digital Colombia - Conectando Comunidades</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: padding 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 2rem 2rem;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float-up linear infinite;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh);
+            }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            color: white;
+            animation: slideInFromLeft 1s ease;
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotate(0);
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: slideInFromRight 1s ease 0.3s both;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: popIn 0.8s ease 0.6s both;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.9rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Problema Section */
+        .problema {
+            background: var(--light);
+        }
+
+        .problema-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .problema-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problema-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .problema-card:hover::before {
+            left: 100%;
+        }
+
+        .problema-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        }
+
+        .problema-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .problema-card:hover .icon {
+            transform: rotate(5deg) scale(1.2);
+            text-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .problema-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .problema-card p {
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        /* Solución Section */
+        .solucion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .solucion-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .solucion-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .solucion-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .solucion-card h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Impacto Section */
+        .impacto {
+            background: var(--light);
+        }
+
+        .impacto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .impacto-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .impacto-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .impacto-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .impacto-card:hover .icon {
+            transform: rotateY(360deg);
+        }
+
+        .impacto-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .impacto-card h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ODS Badges */
+        .ods-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .ods-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .ods-badge {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .ods-badge:hover {
+            transform: translateY(-5px) scale(1.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .ods-badge.ods-4 { background: #c5192d; }
+        .ods-badge.ods-9 { background: #fd6925; }
+        .ods-badge.ods-10 { background: #dd1367; }
+        .ods-badge.ods-17 { background: #19486a; }
+
+        .ods-number {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .ods-text {
+            font-size: 0.7rem;
+            line-height: 1.2;
+        }
+
+        /* Equipo Section */
+        .equipo-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .equipo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .equipo-card:hover::before {
+            left: 100%;
+        }
+
+        .equipo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .equipo-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Contacto Section */
+        .contacto {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .contacto .section-header h2,
+        .contacto .section-header p {
+            color: white;
+        }
+
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contacto-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .info-item .icon {
+            font-size: 2rem;
+        }
+
+        .contacto-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 70%;
+                max-width: 300px;
+                padding: 2rem;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .contacto-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">💻</div>
+                <span>Brecha Digital</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="documentacion.html">Documentación</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="aliados.html">Aliados</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Brecha Digital Colombia</h1>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital en 170 municipios de Colombia</p>
+                <div class="cta-buttons">
+                    <a href="#problema" class="btn btn-primary">Conocer Más</a>
+                    <a href="#contacto" class="btn btn-secondary">Contacto</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-number">170</div>
+                    <div class="stat-label">Municipios Beneficiados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500,000</div>
+                    <div class="stat-label">Beneficiarios Directos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5,000</div>
+                    <div class="stat-label">Docentes Capacitados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">150,000</div>
+                    <div class="stat-label">Personas Formadas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problema Section -->
+    <section class="problema" id="problema">
+        <div class="container">
+            <div class="section-header">
+                <h2>El Problema</h2>
+                <p>La brecha digital en Colombia afecta desproporcionadamente a las comunidades rurales y apartadas</p>
+            </div>
+            <div class="problema-grid">
+                <div class="problema-card">
+                    <div class="icon">📡</div>
+                    <h3>Baja Conectividad</h3>
+                    <p>Solo el 17% de las zonas rurales tienen acceso a internet de calidad, limitando oportunidades educativas y económicas.</p>
+                </div>
+                <div class="problema-card">
+                    <div class="icon">💻</div>
+                    <h3>Falta de Dispositivos</h3>
+                    <p>Escuelas rurales carecen de computadores y tablets necesarios para la educación digital del siglo XXI.</p>
+                </div>
+                <div class="problema-card">
+                    <div class="icon">📚</div>
+                    <h3>Analfabetismo Digital</h3>
+                    <p>El 60% de los docentes rurales no tienen competencias digitales básicas para integrar tecnología en el aula.</p>
+                </div>
+                <div class="problema-card">
+                    <div class="icon">🏢</div>
+                    <h3>Infraestructura Limitada</h3>
+                    <p>Ausencia de centros de acceso comunitario donde la población pueda usar internet y aprender habilidades digitales.</p>
+                </div>
+                <div class="problema-card">
+                    <div class="icon">📊</div>
+                    <h3>Desigualdad de Oportunidades</h3>
+                    <p>La falta de acceso digital amplía la brecha socioeconómica y limita el desarrollo de talento local.</p>
+                </div>
+                <div class="problema-card">
+                    <div class="icon">🌍</div>
+                    <h3>Aislamiento Territorial</h3>
+                    <p>Comunidades apartadas sin conexión al mundo digital, dificultando acceso a servicios e información.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solución Section -->
+    <section class="solucion" id="solucion">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestra Solución</h2>
+                <p>Un enfoque integral para cerrar la brecha digital con 5 componentes estratégicos</p>
+            </div>
+            <div class="solucion-grid">
+                <div class="solucion-card">
+                    <div class="icon">📡</div>
+                    <h3>Conectividad</h3>
+                    <p>Instalación de infraestructura de internet de alta velocidad</p>
+                </div>
+                <div class="solucion-card">
+                    <div class="icon">💻</div>
+                    <h3>Tecnología</h3>
+                    <p>Dotación de equipos y dispositivos tecnológicos</p>
+                </div>
+                <div class="solucion-card">
+                    <div class="icon">🎓</div>
+                    <h3>Capacitación</h3>
+                    <p>Formación en competencias digitales para docentes y comunidad</p>
+                </div>
+                <div class="solucion-card">
+                    <div class="icon">🏢</div>
+                    <h3>Centros Digitales</h3>
+                    <p>Creación de espacios comunitarios de acceso y aprendizaje</p>
+                </div>
+                <div class="solucion-card">
+                    <div class="icon">📊</div>
+                    <h3>Monitoreo</h3>
+                    <p>Sistema de seguimiento y evaluación de impacto continuo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impacto Section -->
+    <section class="impacto" id="impacto">
+        <div class="container">
+            <div class="section-header">
+                <h2>Impacto Esperado</h2>
+                <p>Resultados tangibles que transformarán vidas y comunidades</p>
+            </div>
+            <div class="impacto-grid">
+                <div class="impacto-card">
+                    <div class="icon">👥</div>
+                    <div class="impacto-number">500K+</div>
+                    <h3>Beneficiarios Directos</h3>
+                </div>
+                <div class="impacto-card">
+                    <div class="icon">🏫</div>
+                    <div class="impacto-number">850</div>
+                    <h3>Instituciones Educativas</h3>
+                </div>
+                <div class="impacto-card">
+                    <div class="icon">👨‍🏫</div>
+                    <div class="impacto-number">5,000</div>
+                    <h3>Docentes Capacitados</h3>
+                </div>
+                <div class="impacto-card">
+                    <div class="icon">📚</div>
+                    <div class="impacto-number">150K</div>
+                    <h3>Personas Formadas</h3>
+                </div>
+            </div>
+
+            <div class="ods-section">
+                <h3 style="font-size: 1.8rem; color: var(--dark); margin-bottom: 1rem;">Alineación con Objetivos de Desarrollo Sostenible</h3>
+                <div class="ods-badges">
+                    <div class="ods-badge ods-4">
+                        <div class="ods-number">4</div>
+                        <div class="ods-text">Educación de Calidad</div>
+                    </div>
+                    <div class="ods-badge ods-9">
+                        <div class="ods-number">9</div>
+                        <div class="ods-text">Industria, Innovación</div>
+                    </div>
+                    <div class="ods-badge ods-10">
+                        <div class="ods-number">10</div>
+                        <div class="ods-text">Reducción Desigualdades</div>
+                    </div>
+                    <div class="ods-badge ods-17">
+                        <div class="ods-number">17</div>
+                        <div class="ods-text">Alianzas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipo Section -->
+    <section class="equipo" id="equipo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Equipo</h2>
+                <p>Profesionales comprometidos con la transformación digital de Colombia</p>
+            </div>
+            <div class="equipo-card">
+                <div class="equipo-avatar">👨‍💼</div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Tu Nombre</h3>
+                <p style="color: var(--primary); font-weight: 600; margin-bottom: 1rem;">Director del Proyecto</p>
+                <p style="color: #64748b; line-height: 1.8;">Especialista en proyectos de inclusión digital con más de 10 años de experiencia en desarrollo comunitario y tecnología social.</p>
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+                    <p style="font-size: 0.9rem; color: #64748b;">
+                        © 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section class="contacto" id="contacto">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contacto</h2>
+                <p>¿Tienes preguntas? ¿Quieres ser parte del proyecto? Contáctanos</p>
+            </div>
+            <div class="contacto-grid">
+                <div class="contacto-info">
+                    <div class="info-item">
+                        <div class="icon">📧</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            info@brechadigital.co
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📱</div>
+                        <div>
+                            <strong>Teléfono</strong><br>
+                            +57 300 123 4567
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <div>
+                            <strong>Ubicación</strong><br>
+                            Bogotá, Colombia
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🌐</div>
+                        <div>
+                            <strong>Redes Sociales</strong><br>
+                            @BrechaDigitalCO
+                        </div>
+                    </div>
+                </div>
+                <form class="contacto-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje</label>
+                        <textarea required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Brecha Digital Colombia</h3>
+                <p>Conectando comunidades, transformando vidas a través de la tecnología y la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#problema">Problema</a></li>
+                    <li><a href="#solucion">Solución</a></li>
+                    <li><a href="#impacto">Impacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Recursos</h3>
+                <ul class="footer-links">
+                    <li><a href="documentacion.html">Documentación</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="recursos.html">Recursos</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul class="footer-links">
+                    <li>📧 info@brechadigital.co</li>
+                    <li>📱 +57 300 123 4567</li>
+                    <li>📍 Bogotá, Colombia</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Brecha Digital Colombia | Licencia CC BY-SA 4.0 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '0.5rem 2rem';
+            } else {
+                navbar.style.padding = '1rem 2rem';
+            }
+        });
+
+        // Form submit
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
+            e.target.reset();
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Initialize particles
+        createParticles();
+    </script>
+</body>
+</html>
